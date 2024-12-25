@@ -31,4 +31,11 @@ func main() {
 	sort.Ints(highScores)
 	fmt.Println("sorted list", highScores)
 	fmt.Println(sort.IntsAreSorted(highScores))
+
+	// remove elements from sclices using append method
+
+	var courses = []string{"reactjs", "python", "swift", "java", "kotlin"}
+	index := 2
+	courses = append(courses[:index], courses[index+1:]...)
+	fmt.Println("courses", courses)
 }
