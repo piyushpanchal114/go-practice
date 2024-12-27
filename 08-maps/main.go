@@ -22,4 +22,10 @@ func main() {
 		fmt.Printf("For key %v, Value is %v\n", key, value)
 	}
 
+	// for loop only for values
+
+	for _, value := range languages {
+		fmt.Printf("Value is %v\n", value)
+	}
+
 }
