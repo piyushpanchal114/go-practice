@@ -33,4 +33,17 @@ func main() {
 	} else {
 		fmt.Println("Exactly 10")
 	}
+
+	if num%2 == 0 {
+		fmt.Println("num is even")
+	} else {
+		fmt.Println("num is odd")
+	}
+
+	if x := 3; x < 10 {
+		fmt.Println("num is less than 10")
+	} else {
+		fmt.Println("greater than 10")
+	}
+
 }
