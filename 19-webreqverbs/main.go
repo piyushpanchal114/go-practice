@@ -58,6 +58,7 @@ func PerformPostJsonRequest() {
 	if err != nil {
 		panic(err)
 	}
+	defer response.Body.Close()
 
 	databyte, _ := io.ReadAll(response.Body)
 
