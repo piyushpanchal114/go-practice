@@ -11,15 +11,11 @@ func main() {
 	content := "This is my First File using Go lang"
 
 	file, err := os.Create("./temp.txt")
-	if err != nil {
-		panic(err)
-	}
+	raiseErr(err)
 
 	length, err := io.WriteString(file, content)
 
-	if err != nil {
-		panic(err)
-	}
+	raiseErr(err)
 	fmt.Println("length", length)
 	defer file.Close()
 	readFile("./temp.txt")
@@ -27,9 +23,13 @@ func main() {
 
 func readFile(filename string) {
 	databyte, err := os.ReadFile(filename)
+	raiseErr(err)
+	fmt.Println("datavyte", databyte)
+	fmt.Println("string", string(databyte))
+}
+
+func raiseErr(err error) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("datavyte", databyte)
-	fmt.Println("string", string(databyte))
 }
