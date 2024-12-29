@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
 func main() {
 	fmt.Println("Welcome to web verb in Go lang")
 	// PerformGetRequest()
-	PerformPostJsonRequest()
+	// PerformPostJsonRequest()
+	PerformPostFormRequest()
 }
 
 func PerformGetRequest() {
@@ -66,4 +68,28 @@ func PerformPostJsonRequest() {
 	content.Write(databyte)
 	fmt.Println("content", content.String())
 
+}
+
+func PerformPostFormRequest() {
+	const myurl = "https://api.freeapi.app/api/v1/ecommerce/products"
+
+	data := url.Values{}
+	data.Add("category", "649865ab297b287175aec1d7")
+	data.Add("description", "This is description")
+	data.Add("name", "abc")
+	data.Add("price", "55")
+	data.Add("stock", "10")
+
+	response, err := http.PostForm(myurl, data)
+	if err != nil {
+		panic(err)
+	}
+
+	databyte, err := io.ReadAll(response.Body)
+	if err != nil {
+		panic(err)
+	}
+	var content strings.Builder
+	content.Write(databyte)
+	fmt.Println("resp1", content.String())
 }
