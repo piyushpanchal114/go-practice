@@ -9,7 +9,8 @@ import (
 
 func main() {
 	fmt.Println("Welcome to web verb in Go lang")
-	PerformGetRequest()
+	// PerformGetRequest()
+	PerformPostJsonRequest()
 }
 
 func PerformGetRequest() {
@@ -39,5 +40,29 @@ func PerformGetRequest() {
 	byteCount, _ := responseBuilder.Write(content)
 	fmt.Println("Byte count", byteCount)
 	fmt.Println("the data is:", responseBuilder.String())
+
+}
+
+func PerformPostJsonRequest() {
+	const myurl = "https://api.freeapi.app/api/v1/users/register"
+
+	body := strings.NewReader(`
+		{
+			"email": "user.email@domain.com",
+			"password": "test@123",
+			"role": "ADMIN",
+			"username": "doejohn"
+		}
+	`)
+	response, err := http.Post(myurl, "application/json", body)
+	if err != nil {
+		panic(err)
+	}
+
+	databyte, _ := io.ReadAll(response.Body)
+
+	var content strings.Builder
+	content.Write(databyte)
+	fmt.Println("content", content.String())
 
 }
