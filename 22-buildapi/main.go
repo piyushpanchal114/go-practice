@@ -1,5 +1,9 @@
 package main
 
+import (
+	"net/http"
+)
+
 // Models -file
 type Course struct {
 	CourseId    string  `json:"course_id"`
@@ -24,4 +28,11 @@ func (c *Course) IsEmpty() bool {
 
 func main() {
 
+}
+
+// controllers -file
+
+// serve home route
+func serveHome(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("<h1>Welcome to the First Ever Web Server</h1>"))
 }
