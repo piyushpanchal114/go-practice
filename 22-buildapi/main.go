@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -34,7 +35,24 @@ func (c *Course) IsEmpty() bool {
 }
 
 func main() {
+	fmt.Println("Rest API in Go")
 
+	r := mux.NewRouter()
+
+	// seeding
+	courses = append(courses, Course{CourseId: "1", CourseName: "Reactjs",
+		CoursePrice: "299", Author: &Author{Fullname: "Hitesh Chaudhary", Website: "hiteshchaudhary.ai"}})
+	courses = append(courses, Course{CourseId: "4", CourseName: "Lets Go with Golang",
+		CoursePrice: "99", Author: &Author{Fullname: "Hitesh Chaudhary", Website: "hiteshchaudhary.ai"}})
+
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/courses/{id}", getOneCourse).Methods("GET")
+	r.HandleFunc("/courses", createOneCourse).Methods("POST")
+	r.HandleFunc("/courses/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/courses/{id}", deleteOneCourse).Methods("DELETE")
+
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
 
 // controllers -file
@@ -57,7 +75,7 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	for _, course := range courses {
-		if course == params["id"] {
+		if course.CourseId == params["id"] {
 			json.NewEncoder(w).Encode(course)
 			return
 		}
@@ -83,6 +101,14 @@ func createOneCourse(w http.ResponseWriter, r *http.Request) {
 	if course.IsEmpty() {
 		json.NewEncoder(w).Encode("No data inside the JSON")
 		return
+	}
+
+	for _, c := range courses {
+		fmt.Println("cccc", c)
+		if course.CourseName == c.CourseName {
+			json.NewEncoder(w).Encode("This course is already exists")
+			break
+		}
 	}
 
 	// generate a unique id, string
@@ -124,7 +150,9 @@ func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
 	for index, course := range courses {
 		if course.CourseId == params["id"] {
 			courses = append(courses[:index], courses[index+1:]...)
-			break
+			json.NewEncoder(w).Encode("{}")
+			return
 		}
 	}
+	json.NewEncoder(w).Encode("invalid course id")
 }
