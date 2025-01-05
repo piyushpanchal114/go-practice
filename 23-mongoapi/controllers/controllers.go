@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"context"
 	"fmt"
 	"log"
 
+	"github.com/piyushpanchal114/mongoapi/models"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
@@ -29,4 +31,14 @@ func init() {
 
 	fmt.Println("Collection reference is ready")
 
+}
+
+// MongoDB helpers - file
+
+func insertOneMovie(movie models.Netflix) {
+	inserted, err := collection.InsertOne(context.Background(), movie)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Inserted 1 movie in db with id:", inserted.InsertedID)
 }
