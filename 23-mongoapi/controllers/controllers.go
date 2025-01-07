@@ -149,3 +149,11 @@ func DeleteOneMovieController(w http.ResponseWriter, r *http.Request) {
 	deleteOneMovie(params["id"])
 	json.NewEncoder(w).Encode("")
 }
+
+func DeleteAllMoviesController(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+
+	deleteAllMovies()
+	json.NewEncoder(w).Encode("All movies deleted")
+}
