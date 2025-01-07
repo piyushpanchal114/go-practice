@@ -117,3 +117,16 @@ func GetAllMoviesController(w http.ResponseWriter, r *http.Request) {
 	allMovies := getAllMovies()
 	json.NewEncoder(w).Encode(allMovies)
 }
+
+func CreateMovieController(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Control-Allow-Methods", "POST")
+
+	var movie models.Netflix
+	err := json.NewDecoder(r.Body).Decode(&movie)
+	if err != nil {
+		log.Fatal(err)
+	}
+	insertOneMovie(movie)
+	json.NewEncoder(w).Encode(movie)
+}
