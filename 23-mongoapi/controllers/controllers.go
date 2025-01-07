@@ -84,7 +84,7 @@ func deleteOneMovie(movieId string) {
 // delete many records
 
 func deleteAllMovies() {
-	result, err := collection.DeleteMany(context.Background(), bson.D{{}})
+	result, err := collection.DeleteMany(context.Background(), bson.M{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -93,7 +93,7 @@ func deleteAllMovies() {
 
 // get all records
 func getAllMovies() []primitive.M {
-	cursor, err := collection.Find(context.Background(), bson.D{{}})
+	cursor, err := collection.Find(context.Background(), bson.M{})
 	if err != nil {
 		log.Fatal(err)
 	}
